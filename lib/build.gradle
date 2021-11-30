@@ -31,3 +31,12 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+def generatedResourcesDir = file("${project.buildDir}/gen-resources/resources.prop")
+def generateResources = tasks.register('generateResources') {
+    doLast {
+        generatedResourcesDir.parentFile.mkdirs()
+        generatedResourcesDir << System.currentTimeMillis()
+    }
+}
+sourceSets.main.output.dir generatedResourcesDir, builtBy: generateResources
